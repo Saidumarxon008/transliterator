@@ -96,6 +96,7 @@ test_cases2 = [
 def kiril_to_lotin(text):
     text = re.sub(r"(?<=\s)Ц", 'S', text)
     text = re.sub(r"(?<=\s)ц", 's', text)
+    text = re.sub(r"(?<=\s)e", 'ye', text)
     text = re.sub('ъе', 'ye', text)
     text = re.sub(r'(?=\w)ъ', r'ʻ', text)
     text = re.sub(r'Ш(?=[А-ЯЁ])', 'SH', text)
@@ -175,6 +176,7 @@ def kiril_to_uzbek(text):
     text = re.sub(r"(?<=\s)ц", 's', text)
     text = re.sub('ъе', 'ye', text)
     text = re.sub(r'(?=\w)ъ', r'ʻ', text)
+    text = re.sub(r"(?<=\s)e", 'ye', text)
     text = re.sub(r'Ш(?=[А-ЯЁ])', 'Ş', text)
     text = re.sub(r'Ч(?=[А-ЯЁ])', 'Ç', text)
     text = re.sub(r'Я(?=[А-ЯЁ])', 'YA', text)
