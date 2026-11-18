@@ -1,40 +1,190 @@
-import altair as alt
-import numpy as np
+from builtins import len, print, range, zip
 import pandas as pd
+import re
 import streamlit as st
+from pathlib import Path
 
-"""
-# Welcome to Streamlit!
+csv_path = Path(__file__).parent / "lotin_kiril_new.csv"
+lotin_kiril_pd = pd.read_csv(csv_path)
+kiril = [
+    'А', 'а', 'Б', 'б', 'В', 'в', 'Г', 'г',
+    'Д', 'д', 'Е', 'е', 'Ё', 'ё', 'Ж', 'ж',
+    'З', 'з', 'И', 'и', 'Й', 'й', 'К', 'к',
+    'Л', 'л', 'М', 'м', 'Н', 'н', 'О', 'о',
+    'П', 'п', 'Р', 'р', 'С', 'с', 'Т', 'т',
+    'У', 'у', 'Ф', 'ф', 'Х', 'х', 'Ц', 'ц',
+    'Ч', 'ч', 'Ш', 'ш', 
+    #'Ъ', 'ъ', 'Ь', 'ь',
+    'Э', 'э', 'Ю', 'ю', 'Я', 'я',
+    'Ў', 'ў', 'Қ', 'қ', 'Ғ', 'ғ', 'Ҳ', 'ҳ'
+]
 
-Edit `/streamlit_app.py` to customize this app to your heart's desire :heart:.
-If you have any questions, checkout our [documentation](https://docs.streamlit.io) and [community
-forums](https://discuss.streamlit.io).
+lotin = [
+    'A', 'a', 'B', 'b', 'V', 'v', 'G', 'g',
+    'D', 'd', 'E', 'e', 'Yo', 'yo', 'J', 'j',
+    'Z', 'z', 'I', 'i', 'Y', 'y', 'K', 'k',
+    'L', 'l', 'M', 'm', 'N', 'n', 'O', 'o',
+    'P', 'p', 'R', 'r', 'S', 's', 'T', 't',
+    'U', 'u', 'F', 'f', 'X', 'x', 'Ts', 'ts',
+    'Ch', 'ch', 'Sh', 'sh',
+    #"", "", "", "", 
+    'E', 'e', 'Yu', 'yu', 'Ya', 'ya',
+    "Oʻ", "o‘", "Q", "q", "Gʻ", "gʻ", "H", "h"
+]
 
-In the meantime, below is an example of what you can do with just a few lines of code:
-"""
+uzbek = [
+    'A', 'a', 'B', 'b', 'V', 'v', 'G', 'g',
+    'D', 'd', 'E', 'e', 'Yo', 'yo', 'J', 'j',
+    'Z', 'z', 'I', 'i', 'Y', 'y', 'K', 'k',
+    'L', 'l', 'M', 'm', 'N', 'n', 'O', 'o',
+    'P', 'p', 'R', 'r', 'S', 's', 'T', 't',
+    'U', 'u', 'F', 'f', 'X', 'x', 'Ts', 'ts',
+    'Ç', 'ç', 'Ş', 'ş',
+#    "", "", "", "", 
+    'E', 'e', 'Yu', 'yu', 'Ya', 'ya',
+    'Ö', 'ö', 'Q', 'q', 'Ğ', 'ğ', 'H', 'h'
+]
 
-num_points = st.slider("Number of points in spiral", 1, 10000, 1100)
-num_turns = st.slider("Number of turns in spiral", 1, 300, 31)
 
-indices = np.linspace(0, 1, num_points)
-theta = 2 * np.pi * num_turns * indices
-radius = indices
+test_cases = [
+    ("Салом", "Salom"),
+    ("Шаҳар", "Shahar"),
+    ("Чой", "Choy"),
+    ("Ўзбекистон", "Oʻzbekiston"),
+    ("Ғалаба", "Gʻalaba"),
+    ("Қалам", "Qalam"),
+    ("Ҳаво", "Havo"),
+    ("Ёшлик", "Yoshlik"),
+    ("Яхши", "Yaxshi"),
+    ("Юлдуз", "Yulduz"),
+    ("ШАҲАР", "SHAHAR"),
+    ("ЧИРОЙЛИ", "CHIROYLI"),
+    ("ЎЗБЕКИСТОН", "OʻZBEKISTON"),
+    ("Ғўза", "Gʻoʻza"),
+    ("СҲ?", "SH?"),
+    ("Китоб 123", "Kitob 123"),
+    ("Салом, дунё!", "Salom, dunyo!"),
+    ("АБВ abc", "ABV abc"),
+    ("Компьютер", "Kompyuter"),
+    ("Подъезд", "Podyezd"),
+    ('аъзоларимиз', 'aʻzolarimiz'),
+]
 
-x = radius * np.cos(theta)
-y = radius * np.sin(theta)
+test_cases2 = [
+    ("Salom", "Салом"),
+    ("Shahar", "Шаҳар"),
+    ("Choy", "Чой"),
+    ("Oʻzbekiston", "Ўзбекистон"),
+    ("Gʻalaba", "Ғалаба"),
+    ("Qalam", "Қалам"),
+    ("Havo", "Ҳаво"),
+    ("Yoshlik", "Ёшлик"),
+    ("Yaxshi", "Яхши"),
+    ("Yulduz", "Юлдуз"),
+    ("SHAHAR", "ШАҲАР"),
+    ("CHIROYLI", "ЧИРОЙЛИ"),
+    ("OʻZBEKISTON", "ЎЗБЕКИСТОН"),
+    ( "Gʻoʻza", "Ғўза"),
+    ("Kitob 123","Китоб 123"),
+    ("Salom, dunyo!", "Салом, дунё!"),
+    ("Kompyuter", "Компьютер"),
+    ("Podyezd", "Подъезд"),
+    ('aʻzolarimiz', 'аъзоларимиз'),
+]
 
-df = pd.DataFrame({
-    "x": x,
-    "y": y,
-    "idx": indices,
-    "rand": np.random.randn(num_points),
-})
 
-st.altair_chart(alt.Chart(df, height=700, width=700)
-    .mark_point(filled=True)
-    .encode(
-        x=alt.X("x", axis=None),
-        y=alt.Y("y", axis=None),
-        color=alt.Color("idx", legend=None, scale=alt.Scale()),
-        size=alt.Size("rand", legend=None, scale=alt.Scale(range=[1, 150])),
-    ))
+def kiril_to_lotin(text):
+    text = re.sub(r"(?<=\s)Ц", 'S', text)
+    text = re.sub(r"(?<=\s)ц", 's', text)
+    text = re.sub('ъе', 'ye', text)
+    text = re.sub(r'(?=\w)ъ', r'ʻ', text)
+    text = re.sub(r'Ш(?=[А-ЯЁ])', 'SH', text)
+    text = re.sub(r'Ч(?=[А-ЯЁ])', 'CH', text)
+    text = re.sub(r'Я(?=[А-ЯЁ])', 'YA', text)
+    text = re.sub(r'(?<=[А-ЯЁ])Я', 'YA', text)
+    text = re.sub(r'Ц(?=[А-ЯЁ])', 'TS', text)
+    text = re.sub(r'ь(?=\w)', '', text)
+    for i in range(len(kiril)):
+        text = text.replace(kiril[i], lotin[i])
+    return text
+
+def lotin_to_kiril(text):
+    text = re.sub(r"\b(v|ob|ot|pod|raz|s)(ye|yo|yu|ya)", r"\1ъ\2", text, flags=re.IGNORECASE)
+    text = re.sub(r"\b(ad|diz|in|inter|kon|kontr|pan|sub|tran)(ye|yo|yu|ya)", r"\1ъ\2", text, flags=re.IGNORECASE)
+    text = re.sub(r"\b(kompyuter|premyera|karyera|intervyu|relyef|baryer|pavyon|medalyon|batalyon|bulon|shampinyon|pyesa|kuriyer|kuryer|atyelye|felyeton|vinyetka|minyatura|pavilyon|postalyon|shifonyer)(?=[a-zʻ]*\b)", lambda m: re.sub(r"([bcdfghjklmnpqrstvwxz])(y[aeiou])", r"\1ь\2", m.group(0), count=1, flags=re.IGNORECASE), text, flags=re.IGNORECASE)
+    text = re.sub(r'\b(palto|albom|konsultatsiya|fakultet|asfalt|filtr|film|multfilm|kultura|impuls|rels|kalsiy|alpinist|buldog|buldozer|valyuta|devalvatsiya|emulsiya|falsifikatsiya|folklor|golf|insult|katapulta|konsul|kult|melxior|multiplikatsiya|penalti|pult|rezultat|salto|ultimatum|ultraviyole|vulkan|zelts)(?=[a-zʻ’\']*\b)',lambda m: m.group(0).replace('l', 'lь', 1),text,flags=re.IGNORECASE)
+    text = re.sub(r'\b(sentabr|oktabr|noyabr|dekabr|iyun|iyul|aprel|lager|rul|nol|rol|parol|shtempel|sekretar|inventar|kalendar|monastir|pechat|neft|oblast|seld|portfel|model|otel|kokteyl|festival|gospital|ansambl|spektakl|binokl|[a-z]{3,}(?:tel|ost))(?=[a-zʻ’\']*\b)',r'\1ь',text,flags=re.IGNORECASE)
+    text = re.sub(r'\b(kon|pis|men|bol|svad|xod|molot|pros|rez)(ki|mo|shevik|ba|bu|ba)\b',r'\1ь\2',text,flags=re.IGNORECASE)
+    text = re.sub('Sh', 'Ш', text)
+    text = re.sub('SH', 'Ш', text)
+    text = re.sub('sh', 'ш', text)
+    text = re.sub('Oʻ', 'Ў', text)
+    text = re.sub('o‘', 'ў', text)
+    text = re.sub('oʻ', 'ў', text)
+    text = re.sub('Gʻ', 'Ғ', text)
+    text = re.sub('gʻ', 'ғ', text)
+    text = re.sub('Ya', 'Я', text)
+    text = re.sub('Yu', 'Ю', text)
+    text = re.sub('CH', 'Ч', text)
+    text = re.sub('yu', 'ю', text)
+    text = re.sub('ye', 'е', text)
+    text = re.sub('ya', 'я', text)
+    text = re.sub('YA', 'Я', text)
+    text = re.sub('Ya', 'Я', text)
+    text = re.sub('(?<=[a-z])ʻ', 'ъ', text)
+    text = re.sub(r"\bE", "Э", text)
+    text = re.sub(r"\be", "э", text)
+    for i in range(len(lotin)):
+        text = text.replace(lotin[i], kiril[i])
+    return text
+
+def lotin_to_uzbek(text):
+    text = re.sub('Sh', 'Ş', text)
+    text = re.sub('SH', 'Ş', text)
+    text = re.sub('sh', 'ş', text)  
+    text = re.sub('CH', 'Ç', text)
+    text = re.sub('Ch', 'Ç', text)
+    text = re.sub('ch', 'ç', text)
+    text = re.sub('oʻ', 'ö', text)
+    for i in range(len(uzbek)):
+        text = text.replace(lotin[i], uzbek[i])
+    return text
+
+def uzbek_to_lotin(text):
+    text = re.sub(r'Ş(?=[A-Z])', 'SH', text)
+    text = re.sub(r'Ç(?=[A-Z])', 'CH', text)
+    for i in range(len(uzbek)):
+        text = text.replace(uzbek[i], lotin[i])
+    return text
+
+def kiril_to_uzbek(text):
+    text = re.sub(r"(?<=\s)Ц", 'S', text)
+    text = re.sub(r"(?<=\s)ц", 's', text)
+    text = re.sub('ъе', 'ye', text)
+    text = re.sub(r'(?=\w)ъ', r'ʻ', text)
+    text = re.sub(r'Ш(?=[А-ЯЁ])', 'Ş', text)
+    text = re.sub(r'Ч(?=[А-ЯЁ])', 'Ç', text)
+    text = re.sub(r'Я(?=[А-ЯЁ])', 'YA', text)
+    text = re.sub(r'(?<=[А-ЯЁ])Я', 'YA', text)
+    text = re.sub(r'Ц(?=[А-ЯЁ])', 'TS', text)
+    text = re.sub(r'ь(?=\w)', '', text)
+    for i in range(len(kiril)):
+        text = text.replace(kiril[i], uzbek[i])
+    return text
+def test_engine(data, function, input_column, expected_column):
+    for input_text, expected in zip(data[input_column], data[expected_column]):
+        actual = function(input_text)
+        if actual == expected:
+#            print("Pass:", actual)
+            pass
+        else:
+            print("FAIL:", input_text)
+            print("Expected:", expected)
+            print("Got:", actual)
+
+#test_engine(lotin_kiril_pd, kiril_to_lotin, 'kiril', 'lotin')
+#test_engine(lotin_kiril_pd, lotin_to_kiril, 'lotin', 'kiril')
+#test_engine(lotin_kiril_pd, lotin_to_uzbek, 'lotin', 'uzbek')
+#test_engine(lotin_kiril_pd, kiril_to_uzbek, 'kiril', 'uzbek')
+#test_engine(lotin_kiril_pd, uzbek_to_lotin, 'uzbek', 'lotin')
+st.text_input('Your name', key='name')
