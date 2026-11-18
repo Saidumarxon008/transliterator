@@ -201,7 +201,7 @@ st.set_page_config(
 # -------------------------------
 
 st.title("Alifbo o‘zgartirgich")
-st.write("Convert text between Uzbek writing systems.")
+st.write("O‘zbekcha matnlarni turli alifbolarga o‘zgartiring")
 
 
 # -------------------------------
@@ -211,18 +211,18 @@ st.write("Convert text between Uzbek writing systems.")
 source = st.selectbox(
     "Convert from:",
     [
-        "Uzbek Cyrillic",
-        "Uzbek Latin (1995)",
-        "Alternative Latin"
+        "Kiril O‘zbek",
+        "Lotin O‘zbek",
+        "Yangi O‘zbek"
     ]
 )
 
 target = st.selectbox(
     "Convert to:",
     [
-        "Uzbek Cyrillic",
-        "Uzbek Latin (1995)",
-        "Alternative Latin"
+        "Kiril O‘zbek",
+        "Lotin O‘zbek",
+        "Yangi O‘zbek"
     ]
 )
 
@@ -232,17 +232,17 @@ target = st.selectbox(
 # -------------------------------
 
 converters = {
-    ("Uzbek Cyrillic", "Uzbek Latin (1995)"): kiril_to_lotin,
+    ("Kiril O‘zbek", "Lotin O‘zbek"): kiril_to_lotin,
 
-    ("Uzbek Latin (1995)", "Uzbek Cyrillic"): lotin_to_kiril,
+    ("Lotin O‘zbek", "Kiril O‘zbek"): lotin_to_kiril,
 
-    ("Uzbek Latin (1995)", "Alternative Latin"): lotin_to_uzbek,
+    ("Lotin O‘zbek", "Yangi O‘zbek"): lotin_to_uzbek,
 
-    ("Alternative Latin", "Uzbek Latin (1995)"): uzbek_to_lotin,
+    ("Yangi O‘zbek", "Lotin O‘zbek"): uzbek_to_lotin,
 
-    ("Uzbek Cyrillic", "Alternative Latin"): kiril_to_uzbek,
+    ("Kiril O‘zbek", "Yangi O‘zbek"): kiril_to_uzbek,
 
-    ("Alternative Latin", "Uzbek Cyrillic"):
+    ("Yangi O‘zbek", "Kiril O‘zbek"):
         lambda text: lotin_to_kiril(uzbek_to_lotin(text))
 }
 
@@ -255,13 +255,16 @@ left, right = st.columns(2)
 
 with left:
     input_text = st.text_area(
-        "Enter your text:",
+        "Matnni kiriting:",
         height=250,
-        placeholder="Write something here..."
+        placeholder="Matn shu yerga kiritiladi..."
     )
 
 with right:
-    output_area = st.empty()
+    output_area = st.text_area(
+        'O‘zgargan matn:',
+        height=250
+    )
 
 
 # -------------------------------
@@ -271,7 +274,7 @@ with right:
 if st.button("Convert", type="primary"):
 
     if not input_text:
-        st.warning("Please enter some text.")
+        st.warning("Iltimos, matn kiriting")
 
     elif source == target:
         converted_text = input_text
@@ -294,4 +297,4 @@ if st.button("Convert", type="primary"):
             )
 
         else:
-            st.error("This conversion is not supported.")
+            st.error("Matnni o‘zgartirib bo‘lmadi.")
