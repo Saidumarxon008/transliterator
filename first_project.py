@@ -182,4 +182,4 @@ def test_engine(data, function, input_column, expected_column):
 #test_engine(lotin_kiril_pd, lotin_to_kiril, 'lotin', 'kiril')
 #test_engine(lotin_kiril_pd, lotin_to_uzbek, 'lotin', 'uzbek')
 #test_engine(lotin_kiril_pd, kiril_to_uzbek, 'kiril', 'uzbek')
-#test_engine(lotin_kiril_pd, uzbek_to_lotin, 'uzbek', 'lotin')
+test_engine(lotin_kiril_pd, uzbek_to_lotin, 'uzbek', 'lotin')
