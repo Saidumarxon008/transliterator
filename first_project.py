@@ -21,7 +21,7 @@ kiril = [
 
 lotin = [
     'A', 'a', 'B', 'b', 'V', 'v', 'G', 'g',
-    'D', 'd', 'E', 'e', 'Yo', 'yo', 'J', 'j',
+    'D', 'd', 'Ye', 'e', 'Yo', 'yo', 'J', 'j',
     'Z', 'z', 'I', 'i', 'Y', 'y', 'K', 'k',
     'L', 'l', 'M', 'm', 'N', 'n', 'O', 'o',
     'P', 'p', 'R', 'r', 'S', 's', 'T', 't',
@@ -103,6 +103,8 @@ def kiril_to_lotin(text):
     text = re.sub(r'Я(?=[А-ЯЁ])', 'YA', text)
     text = re.sub(r'(?<=[А-ЯЁ])Я', 'YA', text)
     text = re.sub(r'Ц(?=[А-ЯЁ])', 'TS', text)
+    text = re.sub(r'Е(?=[А-ЯЁ])', 'YE', text)
+    text = re.sub(r'(?=[А-ЯЁ])Е', 'YE', text)
     text = re.sub(r'ь(?=\w)', '', text)
     for i in range(len(kiril)):
         text = text.replace(kiril[i], lotin[i])
@@ -178,6 +180,8 @@ def kiril_to_uzbek(text):
     text = re.sub(r'Я(?=[А-ЯЁ])', 'YA', text)
     text = re.sub(r'(?<=[А-ЯЁ])Я', 'YA', text)
     text = re.sub(r'Ц(?=[А-ЯЁ])', 'TS', text)
+    text = re.sub(r'Е(?=[А-ЯЁ])', 'YE', text)
+    text = re.sub(r'(?=[А-ЯЁ])Е', 'YE', text)
     text = re.sub(r'ь(?=\w)', '', text)
     for i in range(len(kiril)):
         text = text.replace(kiril[i], uzbek[i])
