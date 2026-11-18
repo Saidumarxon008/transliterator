@@ -209,7 +209,7 @@ st.write("O‘zbekcha matnlarni turli alifbolarga o‘zgartiring")
 # -------------------------------
 
 source = st.selectbox(
-    "Convert from:",
+    "Shu alifbodan:",
     [
         "Kiril O‘zbek",
         "Lotin O‘zbek",
@@ -218,7 +218,7 @@ source = st.selectbox(
 )
 
 target = st.selectbox(
-    "Convert to:",
+    "Shu alifboga:",
     [
         "Kiril O‘zbek",
         "Lotin O‘zbek",
@@ -268,7 +268,7 @@ with right:
 # 6. CONVERT BUTTON
 # -------------------------------
 
-if st.button("Convert", type="primary"):
+if st.button("O‘zgartirish", type="primary"):
 
     if not input_text:
         st.warning("Iltimos, matn kiriting")
