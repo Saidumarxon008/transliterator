@@ -276,7 +276,7 @@ if st.button("Convert", type="primary"):
     elif source == target:
         converted_text = input_text
         output_area.text_area(
-            "Converted text:",
+            "O‘zgartirilgan matn:",
             value=converted_text,
             height=250
         )
