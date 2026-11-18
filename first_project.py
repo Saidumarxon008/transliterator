@@ -200,7 +200,7 @@ st.set_page_config(
 # 2. PAGE TITLE
 # -------------------------------
 
-st.title("Uzbek Text Converter")
+st.title("Alifbo o‘zgartirgich")
 st.write("Convert text between Uzbek writing systems.")
 
 
