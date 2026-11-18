@@ -149,6 +149,10 @@ def lotin_to_uzbek(text):
     text = re.sub('Ch', 'Ç', text)
     text = re.sub('ch', 'ç', text)
     text = re.sub('oʻ', 'ö', text)
+    text = re.sub("o'", 'ö', text)
+    text = re.sub("O'", 'Ö', text)
+    text = re.sub("G'", 'Ğ', text)
+    text = re.sub("g'", "ğ", text)
     for i in range(len(uzbek)):
         text = text.replace(lotin[i], uzbek[i])
     return text
