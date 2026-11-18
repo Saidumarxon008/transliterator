@@ -178,20 +178,120 @@ def test_engine(data, function, input_column, expected_column):
     for input_text, expected in zip(data[input_column], data[expected_column]):
         actual = function(input_text)
         if actual == expected:
-#            print("Pass:", actual)
+            print("Pass:", actual)
             pass
         else:
             print("FAIL:", input_text)
             print("Expected:", expected)
             print("Got:", actual)
 
-#test_engine(lotin_kiril_pd, kiril_to_lotin, 'kiril', 'lotin')
-#test_engine(lotin_kiril_pd, lotin_to_kiril, 'lotin', 'kiril')
-#test_engine(lotin_kiril_pd, lotin_to_uzbek, 'lotin', 'uzbek')
-#test_engine(lotin_kiril_pd, kiril_to_uzbek, 'kiril', 'uzbek')
-#test_engine(lotin_kiril_pd, uzbek_to_lotin, 'uzbek', 'lotin')
-input_text = st.text_area("Enter text to transliterate")
+# -------------------------------
+# 1. PAGE SETTINGS
+# -------------------------------
 
-if input_text:
-    converted_text = kiril_to_lotin(input_text)
-    st.write(converted_text)
+st.set_page_config(
+    page_title="Uzbek Text Converter",
+    page_icon="🔤",
+    layout="wide"
+)
+
+
+# -------------------------------
+# 2. PAGE TITLE
+# -------------------------------
+
+st.title("Uzbek Text Converter")
+st.write("Convert text between Uzbek writing systems.")
+
+
+# -------------------------------
+# 3. SELECT SOURCE AND TARGET
+# -------------------------------
+
+source = st.selectbox(
+    "Convert from:",
+    [
+        "Uzbek Cyrillic",
+        "Uzbek Latin (1995)",
+        "Alternative Latin"
+    ]
+)
+
+target = st.selectbox(
+    "Convert to:",
+    [
+        "Uzbek Cyrillic",
+        "Uzbek Latin (1995)",
+        "Alternative Latin"
+    ]
+)
+
+
+# -------------------------------
+# 4. CONNECT THE CONVERSION FUNCTIONS
+# -------------------------------
+
+converters = {
+    ("Uzbek Cyrillic", "Uzbek Latin (1995)"): kiril_to_lotin,
+
+    ("Uzbek Latin (1995)", "Uzbek Cyrillic"): lotin_to_kiril,
+
+    ("Uzbek Latin (1995)", "Alternative Latin"): lotin_to_uzbek,
+
+    ("Alternative Latin", "Uzbek Latin (1995)"): uzbek_to_lotin,
+
+    ("Uzbek Cyrillic", "Alternative Latin"): kiril_to_uzbek,
+
+    ("Alternative Latin", "Uzbek Cyrillic"):
+        lambda text: lotin_to_kiril(uzbek_to_lotin(text))
+}
+
+
+# -------------------------------
+# 5. INPUT AND OUTPUT AREAS
+# -------------------------------
+
+left, right = st.columns(2)
+
+with left:
+    input_text = st.text_area(
+        "Enter your text:",
+        height=250,
+        placeholder="Write something here..."
+    )
+
+with right:
+    output_area = st.empty()
+
+
+# -------------------------------
+# 6. CONVERT BUTTON
+# -------------------------------
+
+if st.button("Convert", type="primary"):
+
+    if not input_text:
+        st.warning("Please enter some text.")
+
+    elif source == target:
+        converted_text = input_text
+        output_area.text_area(
+            "Converted text:",
+            value=converted_text,
+            height=250
+        )
+
+    else:
+        converter = converters.get((source, target))
+
+        if converter:
+            converted_text = converter(input_text)
+
+            output_area.text_area(
+                "Converted text:",
+                value=converted_text,
+                height=250
+            )
+
+        else:
+            st.error("This conversion is not supported.")
