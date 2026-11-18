@@ -261,10 +261,7 @@ with left:
     )
 
 with right:
-    output_area = st.text_area(
-        'O‘zgargan matn:',
-        height=250
-    )
+    output_area = st.empty()
 
 
 # -------------------------------
