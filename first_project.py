@@ -190,7 +190,7 @@ def test_engine(data, function, input_column, expected_column):
 # -------------------------------
 
 st.set_page_config(
-    page_title="Uzbek Text Converter",
+    page_title="Alifbo o‘zgartirgich",
     page_icon="🔤",
     layout="wide"
 )
