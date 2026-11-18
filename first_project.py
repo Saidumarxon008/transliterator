@@ -187,4 +187,8 @@ def test_engine(data, function, input_column, expected_column):
 #test_engine(lotin_kiril_pd, lotin_to_uzbek, 'lotin', 'uzbek')
 #test_engine(lotin_kiril_pd, kiril_to_uzbek, 'kiril', 'uzbek')
 #test_engine(lotin_kiril_pd, uzbek_to_lotin, 'uzbek', 'lotin')
-st.text_input('Your name', key='name')
+input_text = st.text_area("Enter text to transliterate")
+
+if input_text:
+    converted_text = kiril_to_lotin(input_text)
+    st.write(converted_text)
