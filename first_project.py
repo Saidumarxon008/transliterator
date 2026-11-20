@@ -272,11 +272,9 @@ live_text_area = st.components.v2.component(
         textarea {
             box-sizing: border-box;
             width: 100%;
-            height: 100%;
-            min_height: 250px;
+            height: 250px;
             padding: 12px;
-            resize: none;
-            overflow-y: auto;
+            resize: vertical;
             font-family: inherit;
             font-size: 16px;
             color: var(--st-text-color);
@@ -336,7 +334,7 @@ if input_text is not None:
             output_area.text_area(
                 "O‘zgartirilgan matn:",
                 value=converted_text,
-                height=400,
+                height=250,
                 disabled=False
             )
 
