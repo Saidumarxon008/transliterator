@@ -190,6 +190,7 @@ def kiril_to_uzbek(text):
     for i in range(len(kiril)):
         text = text.replace(kiril[i], uzbek[i])
     return text
+
 def test_engine(data, function, input_column, expected_column):
     for input_text, expected in zip(data[input_column], data[expected_column]):
         actual = function(input_text)
@@ -201,9 +202,6 @@ def test_engine(data, function, input_column, expected_column):
             print("Expected:", expected)
             print("Got:", actual)
 
-# -------------------------------
-# 1. PAGE SETTINGS
-# -------------------------------
 
 st.set_page_config(
     page_title="Alifbo o‘zgartirgich",
@@ -211,41 +209,30 @@ st.set_page_config(
     layout="wide"
 )
 
-
-# -------------------------------
-# 2. PAGE TITLE
-# -------------------------------
-
 st.title("Alifbo o‘zgartirgich")
 st.write("O‘zbekcha matnlarni turli alifbolarga o‘zgartiring")
 
 
-# -------------------------------
-# 3. SELECT SOURCE AND TARGET
-# -------------------------------
+col1, col2 = st.columns(2)
+with col1:
+    source = st.selectbox(
+        "Shu alifbodan:",
+        [
+            "Kiril O‘zbek",
+            "Lotin O‘zbek",
+            "Yangi O‘zbek"
+        ]
+    )
+with col2:
+    target = st.selectbox(
+        "Shu alifboga:",
+        [
+            "Kiril O‘zbek",
+            "Lotin O‘zbek",
+            "Yangi O‘zbek"
+        ]
+    )
 
-source = st.selectbox(
-    "Shu alifbodan:",
-    [
-        "Kiril O‘zbek",
-        "Lotin O‘zbek",
-        "Yangi O‘zbek"
-    ]
-)
-
-target = st.selectbox(
-    "Shu alifboga:",
-    [
-        "Kiril O‘zbek",
-        "Lotin O‘zbek",
-        "Yangi O‘zbek"
-    ]
-)
-
-
-# -------------------------------
-# 4. CONNECT THE CONVERSION FUNCTIONS
-# -------------------------------
 
 converters = {
     ("Kiril O‘zbek", "Lotin O‘zbek"): kiril_to_lotin,
@@ -262,52 +249,41 @@ converters = {
         lambda text: lotin_to_kiril(uzbek_to_lotin(text))
 }
 
-
-# -------------------------------
-# 5. INPUT AND OUTPUT AREAS
-# -------------------------------
-
-left, right = st.columns(2)
-
-with left:
+with col1:
     input_text = st.text_area(
         "Matnni kiriting:",
         height=250,
         placeholder="Matn shu yerga kiritiladi..."
+        st.rerun()
     )
 
-with right:
+with col2:
     output_area = st.empty()
 
+# if st.button("O‘zgartirish", type="primary"):
 
-# -------------------------------
-# 6. CONVERT BUTTON
-# -------------------------------
+#     if not input_text:
+#         st.warning("Iltimos, matn kiriting")
 
-if st.button("O‘zgartirish", type="primary"):
+#     elif source == target:
+#         converted_text = input_text
+#         output_area.text_area(
+#             "O‘zgartirilgan matn:",
+#             value=converted_text,
+#             height=250
+#         )
 
-    if not input_text:
-        st.warning("Iltimos, matn kiriting")
+#     else:
+#         converter = converters.get((source, target))
 
-    elif source == target:
-        converted_text = input_text
-        output_area.text_area(
-            "O‘zgartirilgan matn:",
-            value=converted_text,
-            height=250
-        )
+#         if converter:
+#             converted_text = converter(input_text)
 
-    else:
-        converter = converters.get((source, target))
+#             output_area.text_area(
+#                 "Converted text:",
+#                 value=converted_text,
+#                 height=250
+#             )
 
-        if converter:
-            converted_text = converter(input_text)
-
-            output_area.text_area(
-                "Converted text:",
-                value=converted_text,
-                height=250
-            )
-
-        else:
-            st.error("Matnni o‘zgartirib bo‘lmadi.")
+#         else:
+#             st.error("Matnni o‘zgartirib bo‘lmadi.")
