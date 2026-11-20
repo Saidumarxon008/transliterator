@@ -252,6 +252,9 @@ converters = {
 def update_text():
     st.session_state.converted_text = st.session_state.input_text
 
+if 'converted_text' not in st.session_state:
+    st.session_state.converted_text = ''
+    
 with col1:
     input_text = st.text_area(
         "Matnni kiriting:",
