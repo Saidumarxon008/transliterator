@@ -334,7 +334,7 @@ if input_text is not None:
             output_area.text_area(
                 "O‘zgartirilgan matn:",
                 value=converted_text,
-                height=250,
+                height=400,
                 disabled=False
             )
 
