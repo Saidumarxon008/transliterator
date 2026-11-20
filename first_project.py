@@ -249,12 +249,65 @@ converters = {
         lambda text: lotin_to_kiril(uzbek_to_lotin(text))
 }
 
+
+live_text_area = st.components.v2.component(
+    name="uzbek_live_text_area",
+
+    html="""
+        <label for="live-input">Matnni kiriting:</label>
+        <textarea
+            id="live-input"
+            placeholder="Matn shu yerga kiritiladi..."
+        ></textarea>
+    """,
+
+    css="""
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--st-text-color);
+        }
+
+        textarea {
+            box-sizing: border-box;
+            width: 100%;
+            height: 250px;
+            padding: 12px;
+            resize: vertical;
+            font-family: inherit;
+            font-size: 16px;
+            color: var(--st-text-color);
+            background: var(--st-bg-color);
+            border: 1px solid var(--st-border-color);
+            border-radius: 8px;
+        }
+
+        textarea:focus {
+            outline: 2px solid var(--st-primary-color);
+        }
+    """,
+
+    js="""
+        export default function({ parentElement, setStateValue }) {
+            const textarea = parentElement.querySelector("#live-input");
+
+            textarea.oninput = () => {
+                setStateValue("text", textarea.value);
+            };
+        }
+    """
+)
+
 with col1:
-    input_text = st.text_area(
-        "Matnni kiriting:",
+    input_result = live_text_area(
+        default={'text': ''},
+        on_text_change=lambda: None,
+        key='live_input',
         height=250,
-        placeholder="Matn shu yerga kiritiladi..."
+        width='stretch',
     )
+    input_text = input_result.text or ''
 
 with col2:
     output_area = st.empty()
@@ -266,7 +319,7 @@ if input_text is not None:
 
     elif source == target:
         converted_text = input_text
-        output_area.text_area(
+        st.text_area(
             "O‘zgartirilgan matn:",
             value=converted_text,
             height=250
@@ -278,10 +331,11 @@ if input_text is not None:
         if converter:
             converted_text = converter(input_text)
 
-            output_area.text_area(
-                "Converted text:",
+            st.text_area(
+                "O‘zgartirilgan matn:",
                 value=converted_text,
-                height=250
+                height=250,
+                disabled=False
             )
 
         else:
