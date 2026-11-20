@@ -260,7 +260,7 @@ with col2:
     output_area = st.empty()
 
 if input_text is not None:
-    st.rerun(scope='app')
+    st.rerun(scope='output_area')
 
     if not input_text:
         st.warning("Iltimos, matn kiriting")
