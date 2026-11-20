@@ -253,8 +253,10 @@ st.markdown("""
     <style>
     .st-key-matn_input div[data-baseweb="input"],
     .st-key-matn_input input {
-        height: 60px;       /* Adjust height as needed */
-        font-size: 16px;    /* Optional: make text slightly larger */
+        height: 60px !important;
+        min-height: 60px !important;
+        max-height: 60px !important;
+        box-sizing: border-box;
     }
     </style>
 """, unsafe_allow_html=True)
