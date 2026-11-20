@@ -254,7 +254,7 @@ with col1:
         "Matnni kiriting:",
         height=250,
         placeholder="Matn shu yerga kiritiladi...",
-        on_change="convert_text()",
+        on_change='rerun',
     )
 
 with col2:
