@@ -249,24 +249,14 @@ converters = {
         lambda text: lotin_to_kiril(uzbek_to_lotin(text))
 }
 
-st.markdown("""
-    <style>
-    .st-key-matn_input div[data-baseweb="input"],
-    .st-key-matn_input input {
-        height: 60px !important;
-        min-height: 60px !important;
-        max-height: 60px !important;
-        box-sizing: border-box;
-    }
-    </style>
-""", unsafe_allow_html=True)
-
+def update_text():
+    st.session_state.converted_text = st.session_state.input_text
+    
 with col1:
-    input_text = st.text_input(
+    input_text = st.text_area(
         "Matnni kiriting:",
         placeholder="Matn shu yerga kiritiladi...",
-        on_change='rerun',
-        live=True,
+        on_change=update_text,
         key="matn_input" 
     )
 
