@@ -259,7 +259,7 @@ with col1:
 with col2:
     output_area = st.empty()
 
-if st.input_text:
+if st.input_text is not None:
 
     if not input_text:
         st.warning("Iltimos, matn kiriting")
