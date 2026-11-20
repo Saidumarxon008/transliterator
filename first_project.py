@@ -250,7 +250,7 @@ converters = {
 }
 
 with col1:
-    input_text = st.input_text(
+    input_text = st.text_input(
         "Matnni kiriting:",
         height=250,
         placeholder="Matn shu yerga kiritiladi...",
