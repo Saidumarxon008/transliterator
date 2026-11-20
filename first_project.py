@@ -248,13 +248,12 @@ converters = {
     ("Yangi O‘zbek", "Kiril O‘zbek"):
         lambda text: lotin_to_kiril(uzbek_to_lotin(text))
 }
-
 with col1:
     input_text = st.text_area(
         "Matnni kiriting:",
         height=250,
         placeholder="Matn shu yerga kiritiladi...",
-        on_change='input_text'
+        key="input_text"
     )
 
 with col2:
