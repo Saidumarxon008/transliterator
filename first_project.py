@@ -253,15 +253,14 @@ with col1:
     input_text = st.text_area(
         "Matnni kiriting:",
         height=250,
-        placeholder="Matn shu yerga kiritiladi..."
+        placeholder="Matn shu yerga kiritiladi...",
+        on_change="convert_text()",
     )
 
 with col2:
     output_area = st.empty()
 
 if input_text is not None:
-    st.rerun(scope='output_area')
-
     if not input_text:
         st.warning("Iltimos, matn kiriting")
 
