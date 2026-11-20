@@ -251,13 +251,13 @@ converters = {
 
 def update_text():
     st.session_state.converted_text = st.session_state.input_text
-    
+
 with col1:
     input_text = st.text_area(
         "Matnni kiriting:",
+        height=250,
         placeholder="Matn shu yerga kiritiladi...",
         on_change=update_text,
-        key="matn_input" 
     )
 
 with col2:
