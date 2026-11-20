@@ -260,6 +260,7 @@ with col2:
     output_area = st.empty()
 
 if input_text is not None:
+    st.rerun(scope='app')
 
     if not input_text:
         st.warning("Iltimos, matn kiriting")
@@ -271,7 +272,6 @@ if input_text is not None:
             value=converted_text,
             height=250
         ),
-        st.rerun(scope='app')
     else:
         converter = converters.get((source, target))
 
