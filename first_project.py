@@ -255,6 +255,7 @@ with col1:
         height=250,
         placeholder="Matn shu yerga kiritiladi...",
         on_change='rerun',
+        live=True
     )
 
 with col2:
