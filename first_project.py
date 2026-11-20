@@ -270,8 +270,8 @@ if input_text is not None:
             "O‘zgartirilgan matn:",
             value=converted_text,
             height=250
-        )
-
+        ),
+        st.rerun(scope='app')
     else:
         converter = converters.get((source, target))
 
@@ -279,7 +279,7 @@ if input_text is not None:
             converted_text = converter(input_text)
 
             output_area.text_area(
-                "Converted text:",
+                "O'zgartirilgan matn:",
                 value=converted_text,
                 height=250
             )
