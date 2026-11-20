@@ -304,7 +304,7 @@ with col1:
         default={'text': ''},
         on_text_change=lambda: None,
         key='live_input',
-        height=250,
+        height=400,
         width='stretch',
     )
     input_text = input_result.text or ''
@@ -322,7 +322,7 @@ if input_text is not None:
         output_area.text_area(
             "O‘zgartirilgan matn:",
             value=converted_text,
-            height=250
+            height=400
         )
 
     else:
