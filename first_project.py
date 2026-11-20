@@ -319,7 +319,7 @@ if input_text is not None:
 
     elif source == target:
         converted_text = input_text
-        st.text_area(
+        output_area.text_area(
             "O‘zgartirilgan matn:",
             value=converted_text,
             height=250
@@ -331,7 +331,7 @@ if input_text is not None:
         if converter:
             converted_text = converter(input_text)
 
-            st.text_area(
+            output_area.text_area(
                 "O‘zgartirilgan matn:",
                 value=converted_text,
                 height=250,
