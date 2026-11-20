@@ -249,44 +249,39 @@ converters = {
         lambda text: lotin_to_kiril(uzbek_to_lotin(text))
 }
 
-def update_text():
-    st.session_state.converted_text = st.session_state.input_text
-
-if 'converted_text' not in st.session_state:
-    st.session_state.converted_text = ''
-    
 with col1:
     input_text = st.text_area(
         "Matnni kiriting:",
         height=250,
         placeholder="Matn shu yerga kiritiladi...",
-        on_change=update_text,
+        on_change='input_text'
     )
 
 with col2:
-    output_area = st.empty()
-
-if input_text is not None:
     if not input_text:
         st.warning("Iltimos, matn kiriting")
 
     elif source == target:
         converted_text = input_text
-        output_area.text_area(
+
+        st.text_area(
             "O‘zgartirilgan matn:",
             value=converted_text,
-            height=250
-        ),
+            height=250,
+            disabled=True
+        )
+
     else:
         converter = converters.get((source, target))
 
         if converter:
             converted_text = converter(input_text)
 
-            output_area.text_area(
-                "O'zgartirilgan matn:",
+            st.text_area(
+                "O‘zgartirilgan matn:",
                 value=converted_text,
-                height=250
+                height=250,
+                disabled=True
             )
 
         else:
