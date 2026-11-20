@@ -253,8 +253,7 @@ with col1:
     input_text = st.text_area(
         "Matnni kiriting:",
         height=250,
-        placeholder="Matn shu yerga kiritiladi...",
-        st.rerun()
+        placeholder="Matn shu yerga kiritiladi..."
     )
 
 with col2:
