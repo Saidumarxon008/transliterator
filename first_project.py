@@ -249,12 +249,23 @@ converters = {
         lambda text: lotin_to_kiril(uzbek_to_lotin(text))
 }
 
+st.markdown("""
+    <style>
+    .st-key-matn_input div[data-baseweb="input"],
+    .st-key-matn_input input {
+        height: 60px;       /* Adjust height as needed */
+        font-size: 16px;    /* Optional: make text slightly larger */
+    }
+    </style>
+""", unsafe_allow_html=True)
+
 with col1:
     input_text = st.text_input(
         "Matnni kiriting:",
         placeholder="Matn shu yerga kiritiladi...",
         on_change='rerun',
-        live=True
+        live=True,
+        key="matn_input" 
     )
 
 with col2:
