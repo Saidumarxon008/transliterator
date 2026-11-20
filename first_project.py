@@ -255,12 +255,12 @@ with col1:
         height=250,
         placeholder="Matn shu yerga kiritiladi...",
         on_change='rerun',
-        live=True
     )
 
 with col2:
     output_area = st.empty()
 
+input_text(live=True)
 if input_text is not None:
     if not input_text:
         st.warning("Iltimos, matn kiriting")
