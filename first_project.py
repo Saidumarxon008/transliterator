@@ -272,9 +272,11 @@ live_text_area = st.components.v2.component(
         textarea {
             box-sizing: border-box;
             width: 100%;
-            height: 400px;
+            height: 100%;
+            min_height: 250px;
             padding: 12px;
-            resize: vertical;
+            resize: none;
+            overflow-y: auto;
             font-family: inherit;
             font-size: 16px;
             color: var(--st-text-color);
