@@ -254,35 +254,35 @@ with col1:
         "Matnni kiriting:",
         height=250,
         placeholder="Matn shu yerga kiritiladi..."
-
-        if not input_text:
-            st.warning("Iltimos, matn kiriting")
-
-        elif source == target:
-            converted_text = input_text
-                output_area.text_area(
-                "O‘zgartirilgan matn:",
-                value=converted_text,
-                height=250
-            )
-
-        else:
-            converter = converters.get((source, target))
-
-            if converter:
-                converted_text = converter(input_text)
-
-                output_area.text_area(
-                    "Converted text:",
-                    value=converted_text,
-                    height=250
-                )
-
-            else:
-                st.error("Matnni o‘zgartirib bo‘lmadi.")
-        )
+    )
 
 with col2:
     output_area = st.empty()
 
 # if st.button("O‘zgartirish", type="primary"):
+
+#     if not input_text:
+#         st.warning("Iltimos, matn kiriting")
+
+#     elif source == target:
+#         converted_text = input_text
+#         output_area.text_area(
+#             "O‘zgartirilgan matn:",
+#             value=converted_text,
+#             height=250
+#         )
+
+#     else:
+#         converter = converters.get((source, target))
+
+#         if converter:
+#             converted_text = converter(input_text)
+
+#             output_area.text_area(
+#                 "Converted text:",
+#                 value=converted_text,
+#                 height=250
+#             )
+
+#         else:
+#             st.error("Matnni o‘zgartirib bo‘lmadi.")
