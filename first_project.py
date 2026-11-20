@@ -311,12 +311,8 @@ with col1:
 
     input_text = input_result.text or ""
 
-
 with col2:
-    if not input_text:
-        st.warning("Iltimos, matn kiriting")
-
-    elif source == target:
+    if source == target:
         converted_text = input_text
 
         st.text_area(
