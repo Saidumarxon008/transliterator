@@ -250,17 +250,17 @@ converters = {
 }
 
 with col1:
-    input_text = st.text_area(
+    input_text = st.input_text(
         "Matnni kiriting:",
         height=250,
         placeholder="Matn shu yerga kiritiladi...",
         on_change='rerun',
+        live=True
     )
 
 with col2:
     output_area = st.empty()
 
-input_text(live=True)
 if input_text is not None:
     if not input_text:
         st.warning("Iltimos, matn kiriting")
