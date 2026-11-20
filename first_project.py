@@ -299,30 +299,27 @@ live_text_area = st.components.v2.component(
     """
 )
 
+
 with col1:
     input_result = live_text_area(
-        default={'text': ''},
+        default={"text": ""},
         on_text_change=lambda: None,
-        key='live_input',
-        height=250,
-        width='stretch',
+        key="live_input",
+        height=300,
+        width="stretch"
     )
-    input_text = input_result.text or ''
+
+    input_text = input_result.text or ""
 
 with col2:
-    output_area = st.empty()
-
-if input_text is not None:
-
-    if not input_text:
-        st.warning("Iltimos, matn kiriting")
-
-    elif source == target:
+    if source == target:
         converted_text = input_text
-        output_area.text_area(
+
+        st.text_area(
             "O‘zgartirilgan matn:",
             value=converted_text,
-            height=250
+            height=250,
+            disabled=True
         )
 
     else:
@@ -331,11 +328,11 @@ if input_text is not None:
         if converter:
             converted_text = converter(input_text)
 
-            output_area.text_area(
+            st.text_area(
                 "O‘zgartirilgan matn:",
                 value=converted_text,
                 height=250,
-                disabled=False
+                disabled=True
             )
 
         else:
