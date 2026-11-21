@@ -239,6 +239,12 @@ if "source" not in st.session_state:
 if "target" not in st.session_state:
     st.session_state.target = "Lotin O‘zbek"
 
+def swap_languages():
+    st.session_state.source, st.session_state.target = (
+        st.session_state.target,
+        st.session_state.source
+    )
+    
 with col1:
     source = st.selectbox(
         "Shu alifbodan:",
@@ -251,10 +257,7 @@ with col1:
     )
 with swap_col:
     st.write("")
-    st.write("")
-    if st.button("🔄", help='Alifbolarni almashtirish'):
-        st.session_state.source, st.session_state.target = (st.session_state.target, st.session_state.source)
-        st.rerun()
+    st.button("🔄", help='Alifbolarni almashtirish', on_click=swap_languages)
 
 with col2:
     target = st.selectbox(
