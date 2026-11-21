@@ -274,7 +274,7 @@ live_text_area = st.components.v2.component(
             width: 100%;
             height: 250px;
             padding: 12px;
-            resize: vertical;
+            resize: none;
             font-family: inherit;
             font-size: 16px;
             color: var(--st-text-color);
@@ -305,7 +305,7 @@ with col1:
         default={"text": ""},
         on_text_change=lambda: None,
         key="live_input",
-        height=267,
+        height=200,
         width="stretch"
     )
 
