@@ -308,7 +308,7 @@ with col1:
         default={"text": ""},
         on_text_change=lambda: None,
         key="live_input",
-        height=250,
+        height=300,
         width="stretch"
     )
 
@@ -334,7 +334,7 @@ with col2:
             st.text_area(
                 "O‘zgartirilgan matn:",
                 value=converted_text,
-                height=250,
+                height=300,
                 disabled=True
             )
 
