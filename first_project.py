@@ -213,7 +213,7 @@ st.markdown(
     """
     <style>
     div[data-testid="stTextArea"]:has(textarea[aria-label="O‘zgartirilgan matn:"]) textarea {
-        font-size: 18px;
+        font-size: 25px;
         line-height: 1.5;
     }
     </style>
