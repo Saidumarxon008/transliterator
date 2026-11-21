@@ -357,26 +357,17 @@ with col2:
     if source == target:
         converted_text = input_text
 
-        st.text_area(
-            "O‘zgartirilgan matn:",
-            value=converted_text,
-            height=250,
-            disabled=True
-        )
-
     else:
         converter = converters.get((source, target))
 
         if converter:
             converted_text = converter(input_text)
-
-            st.text_area(
-                "O‘zgartirilgan matn:",
-                value=converted_text,
-                height=275,
-                disabled=True,
-                key='output_text'
-            )
-
         else:
-            st.error("Matnni o‘zgartirib bo‘lmadi.")
+            converted_text = ""
+
+    st.text_area(
+        "O‘zgartirilgan matn:",
+        value=converted_text,
+        height=250,
+        disabled=True
+    )
