@@ -334,7 +334,7 @@ with col2:
             st.text_area(
                 "O‘zgartirilgan matn:",
                 value=converted_text,
-                height=267,
+                height=275,
                 disabled=True
             )
 
