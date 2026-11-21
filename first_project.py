@@ -209,6 +209,17 @@ st.set_page_config(
     layout="wide"
 )
 
+st.markdown(
+    """
+    <style>
+    div[data-testid="stTextArea"] textarea {
+        font-size: 18px;
+        line-height: 1.5;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
 st.title("Alifbo o‘zgartirgich")
 st.write("O‘zbekcha matnlarni turli alifbolarga o‘zgartiring")
 
@@ -335,7 +346,8 @@ with col2:
                 "O‘zgartirilgan matn:",
                 value=converted_text,
                 height=275,
-                disabled=True
+                disabled=True,
+                key='output_text'
             )
 
         else:
