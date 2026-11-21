@@ -207,7 +207,7 @@ st.set_page_config(
     page_title="Alifbo o‘zgartirgich",
     page_icon="🔤",
     layout="wide"
-);
+)
 
 st.markdown(
     """
@@ -225,7 +225,7 @@ st.markdown(
     </style>
     """,
     unsafe_allow_html=True
-),
+    )
 
 st.title("Alifbo o‘zgartirgich")
 st.write("O‘zbekcha matnlarni turli alifbolarga o‘zgartiring")
