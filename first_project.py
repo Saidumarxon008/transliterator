@@ -231,7 +231,7 @@ st.title("Alifbo o‘zgartirgich")
 st.write("O‘zbekcha matnlarni turli alifbolarga o‘zgartiring")
 
 
-col1, swap_col, col2 = st.columns([1, 0.25, 1])
+col1, swap_col, col2 = st.columns([1, 0.2, 1])
 
 if "source" not in st.session_state:
     st.session_state.source = "Kiril O‘zbek"
