@@ -257,6 +257,7 @@ with col1:
     )
 with swap_col:
     st.write("")
+    st.write("")
     st.button("⇄", help='Alifbolarni almashtirish', on_click=swap_languages)
 
 with col2:
