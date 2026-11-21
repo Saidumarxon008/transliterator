@@ -214,8 +214,8 @@ st.markdown(
     <style>
     .st-key-output_text textarea {
         font-family: inherit !important;
-        font-size: 18px !important;
-        line-height: 1.5 !important;
+        font-size: 25px !important;
+        line-height: 2 !important;
         height: 250px !important;
     }
 
