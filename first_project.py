@@ -231,7 +231,14 @@ st.title("Alifbo o‘zgartirgich")
 st.write("O‘zbekcha matnlarni turli alifbolarga o‘zgartiring")
 
 
-col1, col2 = st.columns(2)
+col1, swap_col, col2 = st.columns([1, 0.5, 1])
+
+if "source" not in st.session_state:
+    st.session_state.source = "Kiril O‘zbek"
+
+if "target" not in st.session_state:
+    st.session_state.target = "Lotin O‘zbek"
+
 with col1:
     source = st.selectbox(
         "Shu alifbodan:",
@@ -239,8 +246,16 @@ with col1:
             "Kiril O‘zbek",
             "Lotin O‘zbek",
             "Yangi O‘zbek"
-        ]
+        ],
+        key='source'
     )
+with swap_col:
+    st.write("")
+    st.write("")
+    if st.button("🔄", help='Alifbolarni almashtirish'):
+        st.session_state.source, st.session_state.target = (st.session_state.target, st.session_state.source)
+        st.rerun()
+
 with col2:
     target = st.selectbox(
         "Shu alifboga:",
@@ -248,7 +263,8 @@ with col2:
             "Kiril O‘zbek",
             "Lotin O‘zbek",
             "Yangi O‘zbek"
-        ]
+        ],
+        key='target'
     )
 
 
