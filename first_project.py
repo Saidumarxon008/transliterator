@@ -305,7 +305,7 @@ with col1:
         default={"text": ""},
         on_text_change=lambda: None,
         key="live_input",
-        height=250,
+        height=267,
         width="stretch"
     )
 
