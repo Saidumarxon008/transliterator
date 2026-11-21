@@ -207,7 +207,7 @@ st.set_page_config(
     page_title="Alifbo o‘zgartirgich",
     page_icon="🔤",
     layout="wide"
-)
+);
 
 st.markdown(
     """
