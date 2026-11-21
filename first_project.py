@@ -289,7 +289,8 @@ live_text_area = st.components.v2.component(
             background: var(--st-bg-color);
             border: 1px solid var(--st-border-color);
             border-radius: 8px;
-        }"""
+        }
+    """,
     js="""
         export default function({ parentElement, setStateValue }) {
             const textarea = parentElement.querySelector("#live-input");
