@@ -212,14 +212,21 @@ st.set_page_config(
 st.markdown(
     """
     <style>
-    div[data-testid="stTextArea"]:has(textarea[aria-label="O‘zgartirilgan matn:"]) textarea {
-        font-size: 25px;
-        line-height: 1.5;
+    .st-key-output_text textarea {
+        font-family: inherit !important;
+        font-size: 18px !important;
+        line-height: 1.5 !important;
+        height: 250px !important;
+    }
+
+    .st-key-output_text label {
+        font-size: 16px !important;
     }
     </style>
     """,
     unsafe_allow_html=True
-)
+),
+
 st.title("Alifbo o‘zgartirgich")
 st.write("O‘zbekcha matnlarni turli alifbolarga o‘zgartiring")
 
@@ -295,7 +302,8 @@ live_text_area = st.components.v2.component(
             resize: none;
             overflow-y: auto;
             font-family: inherit;
-            font-size: 16px;
+            font-size: 18px;
+            line-height: 1.5;
             color: var(--st-text-color);
             background: var(--st-bg-color);
             border: 1px solid var(--st-border-color);
