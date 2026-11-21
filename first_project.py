@@ -262,6 +262,12 @@ live_text_area = st.components.v2.component(
     """,
 
     css="""
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
         label {
             display: block;
             margin-bottom: 8px;
@@ -271,23 +277,19 @@ live_text_area = st.components.v2.component(
 
         textarea {
             box-sizing: border-box;
+            display: block;
             width: 100%;
             height: 250px;
             padding: 12px;
             resize: none;
+            overflow-y: auto;
             font-family: inherit;
             font-size: 16px;
             color: var(--st-text-color);
             background: var(--st-bg-color);
             border: 1px solid var(--st-border-color);
             border-radius: 8px;
-        }
-
-        textarea:focus {
-            outline: 2px solid var(--st-primary-color);
-        }
-    """,
-
+        }"""
     js="""
         export default function({ parentElement, setStateValue }) {
             const textarea = parentElement.querySelector("#live-input");
@@ -305,7 +307,7 @@ with col1:
         default={"text": ""},
         on_text_change=lambda: None,
         key="live_input",
-        height=267,
+        height=300,
         width="stretch"
     )
 
