@@ -212,7 +212,7 @@ st.set_page_config(
 st.markdown(
     """
     <style>
-    div[data-testid="stTextArea"] textarea {
+    div[data-testid="stTextArea"]:has(textarea[aria-label="O‘zgartirilgan matn:"]) textarea {
         font-size: 18px;
         line-height: 1.5;
     }
