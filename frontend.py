@@ -172,5 +172,5 @@ with col2:
     )
 
 with middle_col:
-    uploaded_file = st.file_uploader("Fayl yuklash", accept_multiple_files=False, type=["txt", 'pdf'], key="file_upload", on_change=lambda: None)
-    file_import(uploaded_file)
+    upload_file = st.file_uploader("Fayl yuklash", accept_multiple_files=False, type=["txt", 'pdf'], key="file_upload", on_change=lambda: None)
+    file_import(upload_file)
