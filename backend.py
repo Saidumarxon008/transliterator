@@ -3,7 +3,8 @@ import pandas as pd
 import re
 import streamlit as st
 from pathlib import Path
-import docx2txt
+#failed import import docx2txt
+from docx import Document
 
 csv_path = Path(__file__).parent / "lotin_kiril_new.csv"
 lotin_kiril_pd = pd.read_csv(csv_path)
@@ -215,5 +216,5 @@ def file_import(upload_file):
         if upload_file.type == 'application/pdf':
             pass
         else:
-            raw_text = docx2txt.process(upload_file)    
+            raw_text = Document.process(upload_file)    
             st.write(raw_text)
