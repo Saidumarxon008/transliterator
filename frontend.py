@@ -29,7 +29,7 @@ st.title("Alifbo o‘zgartirgich")
 st.write("O‘zbekcha matnlarni turli alifbolarga o‘zgartiring")
 
 
-col1, swap_col, col2 = st.columns([1, 0.5, 1])
+col1, middle_col, col2 = st.columns([1, 0.5, 1])
 
 if "source" not in st.session_state:
     st.session_state.source = "Kiril O‘zbek"
@@ -53,7 +53,7 @@ with col1:
         ],
         key='source'
     )
-with swap_col:
+with middle_col:
     st.write("")
     st.write("")
     st.button("⇄", help='Alifbolarni almashtirish', on_click=swap_languages)
@@ -170,3 +170,5 @@ with col2:
         disabled=True
     )
 
+with middle_col:
+    st.file_upload("Fayl yuklash", accept_multiple_files=False, type=["txt", 'pdf'], key="file_upload", on_change=lambda: None)
