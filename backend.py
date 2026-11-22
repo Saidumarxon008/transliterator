@@ -207,4 +207,3 @@ def file_import(uploaded_file):
     if uploaded_file:
         st.write('File name:', uploaded_file.name)
 
-file_import(uploaded_file)
