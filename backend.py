@@ -203,6 +203,9 @@ def test_engine(data, function, input_column, expected_column):
             print("Got:", actual)
 
 def file_import(uploaded_file):
-    if uploaded_file:
-        st.write('File name:', uploaded_file.name)
+    if not uploaded_file:
+        st.write("Faylni yuklab bo'lmadi")
+    else:
+        st.write(type(uploaded_file))
+
 
