@@ -210,3 +210,4 @@ def file_import(upload_file):
         if upload_file.type == 'text/plain':
             raw_text = str(upload_file.read(), 'utf-8')
             st.write(raw_text)
+            st.text(raw_text)
