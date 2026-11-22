@@ -3,7 +3,6 @@ import pandas as pd
 import re
 import streamlit as st
 from pathlib import Path
-from frontend import uploaded_file
 
 csv_path = Path(__file__).parent / "lotin_kiril_new.csv"
 lotin_kiril_pd = pd.read_csv(csv_path)
