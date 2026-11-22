@@ -206,3 +206,5 @@ def test_engine(data, function, input_column, expected_column):
 def file_import(uploaded_file):
     if uploaded_file:
         st.write('File name:', uploaded_file.name)
+
+file_import(uploaded_file)
