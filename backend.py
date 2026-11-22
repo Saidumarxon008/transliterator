@@ -4,7 +4,7 @@ import re
 import streamlit as st
 from pathlib import Path
 #from PyPDF import PdfFileReader
-import pdfplumber
+#import pdfplumber
 #failed import import docx2txt
 #failed import import docx
 
@@ -215,13 +215,13 @@ def file_import(upload_file):
             raw_text = str(upload_file.read(), 'utf-8')
             #didnt work st.write(raw_text)
             st.text(raw_text)
-        if upload_file.type == 'application/pdf':
-            try:
-                with pdfplumber.open(upload_file) as pdf:
-                    pages = pdf.pages[0]
-                    st.write(pages.extract_text())
-            except:
-                st.write('None')
+        # if upload_file.type == 'application/pdf':
+        #     try:
+        #         with pdfplumber.open(upload_file) as pdf:
+        #             pages = pdf.pages[0]
+        #             st.write(pages.extract_text())
+        #     except:
+        #         st.write('None')
         # else:
         #     raw_text = docx.Document.process(upload_file)    
         #     st.write(raw_text)
