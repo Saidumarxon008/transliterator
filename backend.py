@@ -207,5 +207,5 @@ def file_import(upload_file):
         st.write("Faylni yuklab bo'lmadi")
     else:
         st.write(type(upload_file))
-
+        st.write(pd.read_csv(upload_file))
 
