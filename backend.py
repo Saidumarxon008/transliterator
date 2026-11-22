@@ -207,3 +207,6 @@ def file_import(upload_file):
         st.write("Faylni yuklab bo'lmadi")
     else:
         st.write(upload_file.type)
+        if upload_file.type == 'text/plain':
+            raw_text = str(upload_file.read(), 'utf-8')
+            st.write(raw_text)
