@@ -213,6 +213,7 @@ def file_import(upload_file):
         st.write(upload_file.type)
         if upload_file.type == 'text/plain':
             input_text = str(upload_file.read(), 'utf-8')
+            st.text(input_text)
             #didnt work st.write(raw_text)
         # if upload_file.type == 'application/pdf':
         #     try:
