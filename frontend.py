@@ -152,6 +152,12 @@ with col1:
 
     input_text = input_result.text or ""
 
+with middle_col:
+    upload_file = st.file_uploader("Fayl yuklash", accept_multiple_files=False, type=["txt", 'pdf', 'csv', 'xlsx', 'docx'], key="file_upload", on_change=lambda: None)
+    file_import(upload_file)
+    input_text = input_result
+
+
 with col2:
     if source == target:
         converted_text = input_text
@@ -170,8 +176,3 @@ with col2:
         height=250,
         disabled=True
     )
-
-with middle_col:
-    upload_file = st.file_uploader("Fayl yuklash", accept_multiple_files=False, type=["txt", 'pdf', 'csv', 'xlsx', 'docx'], key="file_upload", on_change=lambda: None)
-    file_import(upload_file)
-    
