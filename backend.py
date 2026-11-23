@@ -217,6 +217,7 @@ def file_import(upload_file):
             download_file = open(f'{upload_file}', 'w')
             download_file.write('Hello World!')
             download_file.close()
+            st.download_button('Yuklab olish', download_file)
             #didnt work st.write(raw_text)
         # if upload_file.type == 'application/pdf':
         #     try:
