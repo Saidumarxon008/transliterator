@@ -219,7 +219,7 @@ def file_import(upload_file):
                     while len(file_content) > 0:
                         download_file.write(file_content)
                         file_content = test_file.read(chunk_size)
-            st.write(download_file)
+            st.text(download_file)
         #    st.text(input_text)
             if st.button('Convert'):
                 st.download_button(
