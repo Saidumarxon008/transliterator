@@ -59,8 +59,9 @@ def file_import(upload_file, source, target):
             #Convert the text
             if source == target:
                 converted_text = file_content
+
             else:
-                converter = converter.get((source, target))
+                converter = converters.get((source, target))
 
                 if converter:
                     converted_text = converter(file_content)
