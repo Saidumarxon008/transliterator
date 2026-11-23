@@ -212,12 +212,10 @@ def file_import(upload_file):
     else:
         st.write(upload_file.type)
         if upload_file.type == 'text/plain':
-        #    input_text = str(upload_file.read(), 'utf-8') or ''
+            download_file = str(upload_file.read(), 'utf-8') or ''
         #    st.text(input_text)
-            download_file = open(f'{upload_file}', 'w')
-            download_file.write('Hello World!')
-            download_file.close()
-            st.download_button('Yuklab olish', download_file)
+            if st.button('Convert'):
+                st.download_button(label='Yuklab olish', data=download_file, file_name=f'{upload_file}_new.txt', on_click='ignore')
             #didnt work st.write(raw_text)
         # if upload_file.type == 'application/pdf':
         #     try:
