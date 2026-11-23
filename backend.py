@@ -212,7 +212,7 @@ def file_import(upload_file):
     else:
         if upload_file.type == 'text/plain':
             chunk_size = 10
-            with open(f'{upload_file}.txt', 'r') as test_file:
+            with open(f'{upload_file}', 'r') as test_file:
                 with open('download_file.txt', 'w') as download_file:
                     file_content = test_file.read(chunk_size)
 
