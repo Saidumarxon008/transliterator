@@ -210,12 +210,25 @@ def file_import(upload_file):
     if not upload_file:
         st.write("Faylni yuklab bo'lmadi")
     else:
-        st.write(upload_file.type)
         if upload_file.type == 'text/plain':
-            download_file = str(upload_file.read(), 'utf-8') or ''
+            chunk_size = 10
+            with open(f'{upload_file}', 'r') as test_file:
+                with open('download_file.txt', 'w') as download_file:
+                    file_content = test_file.read(chunk_size)
+
+                    while len(file_content) > 0:
+                        download_file.write(file_content)
+                        file_content = test_file.read(chunk_size)
+            st.write(download_file)
         #    st.text(input_text)
             if st.button('Convert'):
-                st.download_button(label='Yuklab olish', data=download_file, file_name=f'{upload_file}_new.txt', on_click='ignore')
+                st.download_button(
+                    label='Yuklab olish', 
+                    data=download_file, 
+                    file_name=f'{upload_file}_new.txt',
+                    on_click='ignore', 
+                    mime='text/plain'
+                )
             #didnt work st.write(raw_text)
         # if upload_file.type == 'application/pdf':
         #     try:
