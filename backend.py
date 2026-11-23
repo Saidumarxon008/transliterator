@@ -212,8 +212,9 @@ def file_import(upload_file):
     else:
         st.write(upload_file.type)
         if upload_file.type == 'text/plain':
-            input_result = str(upload_file.read(), 'utf-8') or ''
-            #didnt work st.write(raw_text) 
+            raw_text = str(upload_file.read(), 'utf-8')
+            #didnt work st.write(raw_text)
+            st.text(raw_text)
         # if upload_file.type == 'application/pdf':
         #     try:
         #         with pdfplumber.open(upload_file) as pdf:
