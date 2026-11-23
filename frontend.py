@@ -155,7 +155,7 @@ with col1:
 with middle_col:
     upload_file = st.file_uploader("Fayl yuklash", accept_multiple_files=False, type=["txt", 'pdf', 'csv', 'xlsx', 'docx'], key="file_upload", on_change=lambda: None)
     file_import(upload_file)
-    st.write(input_text)
+    st.text(input_text)
 
 
 with col2:
