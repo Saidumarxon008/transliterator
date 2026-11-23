@@ -206,28 +206,35 @@ def test_engine(data, function, input_column, expected_column):
             print("Expected:", expected)
             print("Got:", actual)
 
-def file_import(upload_file):
-    if not upload_file:
-        st.write("Faylni yuklab bo'lmadi")
+def file_import(upload_file, source, target):
+    if upload_file is None:
+        st.write("Yoki fayl yuklang.")
+        return
     else:
         if upload_file.type == 'text/plain':
-            chunk_size = 10
-            with open(f'{upload_file}', 'r') as test_file:
-                with open('download_file.txt', 'w') as download_file:
-                    file_content = test_file.read(chunk_size)
 
-                    while len(file_content) > 0:
-                        download_file.write(file_content)
-                        file_content = test_file.read(chunk_size)
-        #    st.text(input_text)
-            if st.button('Convert'):
-                st.download_button(
-                    label='Yuklab olish', 
-                    data=download_file, 
-                    file_name=f'{upload_file}_new.txt',
-                    on_click='ignore', 
-                    mime='text/plain'
-                )
+            #Read the uploaded file
+            file_content = upload_file.getvalue().decode('utf-8')
+
+            #Convert the text
+            if source == target:
+                converted_text = file_content
+            else:
+                converter = converter.get((source, target))
+
+                if converter:
+                    converted_text = converter(file_content)
+                else:
+                    st.error("Bu yo'nalish qo'llob quvvatlanmaydi.")
+                    return
+            st.download_button(
+                label='Yuklab olish', 
+                data=converted_text, 
+                file_name=f'{Path(upload_file.name).stem}_converted.txt',
+                mime='text/plain'
+            )
+        else:
+            st.error("Bu fayl turi qo'llab quvvatlanmaydi")
             #didnt work st.write(raw_text)
         # if upload_file.type == 'application/pdf':
         #     try:
