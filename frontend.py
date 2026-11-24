@@ -69,7 +69,7 @@ def file_import(upload_file, source, target):
                 if converter:
                     converted_text = converter(file_content)
                 else:
-                    st.error("Bu yo'nalish qo'llob quvvatlanmaydi.")
+                    st.error("Bu yo'nalish qo'llab quvvatlanmaydi.")
                     return
             st.download_button(
                 label='Yuklab olish', 
