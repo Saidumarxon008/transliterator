@@ -4,7 +4,7 @@ import re
 import streamlit as st
 from pathlib import Path
 #from PyPDF import PdfFileReader
-#import pdfplumber
+import pdfplumber
 #failed import import docx2txt
 #failed import import docx
 
