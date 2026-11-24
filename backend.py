@@ -3,7 +3,6 @@ import pandas as pd
 import re
 from pathlib import Path
 #from PyPDF import PdfFileReader
-import pdfplumber
 #failed import import docx2txt
 #failed import import docx
 
