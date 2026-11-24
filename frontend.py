@@ -86,7 +86,7 @@ def file_import(upload_file, source, target):
             except:
                 st.write('None')
         else:
-            raw_text = docx.Document.process(upload_file)    
+            raw_text = docx.process(upload_file)    
             st.write(raw_text)
     
 with col1:
