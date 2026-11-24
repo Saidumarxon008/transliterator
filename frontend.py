@@ -84,9 +84,9 @@ def file_import(upload_file, source, target):
                     st.write(pages.extract_text())
             except:
                 st.write('None')
-        # elif upload_file.type = :
-        #     raw_text = docx.process(upload_file)    
-            # st.write(raw_text)
+        elif upload_file.type = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
+            raw_text = docx.process(upload_file)    
+            st.write(raw_text)
         else:
             st.error("Bu fayl turi qo'llab quvvatlanmaydi")
     
