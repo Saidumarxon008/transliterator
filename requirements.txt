@@ -1,5 +1,5 @@
 streamlit
-pdfplumbr
+pdfplumber
 pandas
 pathlib
 re
