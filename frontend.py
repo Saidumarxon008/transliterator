@@ -53,6 +53,7 @@ def file_import(upload_file, source, target):
         st.write("Yoki fayl yuklang.")
         return
     else:
+        st.write(upload_file.type)
         if upload_file.type == 'text/plain':
 
             #Read the uploaded file
@@ -76,18 +77,18 @@ def file_import(upload_file, source, target):
                 file_name=f'{Path(upload_file.name).stem}_converted.txt',
                 mime='text/plain'
             )
-        else:
-            st.error("Bu fayl turi qo'llab quvvatlanmaydi")
-        if upload_file.type == 'application/pdf':
+        elif upload_file.type == 'application/pdf':
             try:
                 with pdfplumber.open(upload_file) as pdf:
                     pages = pdf.pages[0]
                     st.write(pages.extract_text())
             except:
                 st.write('None')
+        # elif upload_file.type = :
+        #     raw_text = docx.process(upload_file)    
+            # st.write(raw_text)
         else:
-            raw_text = docx.process(upload_file)    
-            st.write(raw_text)
+            st.error("Bu fayl turi qo'llab quvvatlanmaydi")
     
 with col1:
     source = st.selectbox(
