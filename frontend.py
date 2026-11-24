@@ -2,6 +2,7 @@ from pathlib import Path
 
 import streamlit as st
 import pdfplumber
+import docx2txt as docx
 
 from backend import kiril_to_lotin, kiril_to_uzbek, lotin_to_kiril, lotin_to_uzbek, uzbek_to_lotin
 
@@ -84,9 +85,9 @@ def file_import(upload_file, source, target):
                     st.write(pages.extract_text())
             except:
                 st.write('None')
-        # else:
-        #     raw_text = docx.Document.process(upload_file)    
-        #     st.write(raw_text)
+        else:
+            raw_text = docx.Document.process(upload_file)    
+            st.write(raw_text)
     
 with col1:
     source = st.selectbox(
