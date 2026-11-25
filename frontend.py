@@ -78,10 +78,7 @@ def file_import(upload_file, source, target):
                 mime='text/plain'
             )
         elif upload_file.type == 'application/pdf':
-            try:
-                with pdfplumber.open(upload_file) as pdf:
-                #Read the uploaded file
-            file_content = upload_file.getvalue().decode('utf-8')
+            file_content = pdfplumber.open(upload_file).decode('utf-8')
 
             #Convert the text
             if source == target:
@@ -95,8 +92,6 @@ def file_import(upload_file, source, target):
                 else:
                     st.error("Bu yo'nalish qo'llab quvvatlanmaydi.")
                     return
-            except:
-                st.write('None')
         elif upload_file.type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
             raw_text = docx.process(upload_file)    
             st.write(raw_text)
