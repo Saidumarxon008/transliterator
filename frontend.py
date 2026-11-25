@@ -136,6 +136,7 @@ def file_import(upload_file, source, target):
                 else:
                     st.error("Bu yo'nalish qo'llab quvvatlanmaydi.")
                     return 
+            converted_text = pd.Dataframe(converted_text)
             converted_text.to_excel(f'{Path(upload_file.name).stem}_converted.xlsx', index=False, engine='openpyxl')  
             st.download_button(
                 label='Yuklab olish', 
