@@ -78,7 +78,7 @@ def file_import(upload_file, source, target):
                 mime='text/plain'
             )
         elif upload_file.type == 'application/pdf':
-            file_content = pdfplumber.open(upload_file).decode('utf-8')
+            file_content = pdfplumber.open(upload_file)
 
             #Convert the text
             if source == target:
