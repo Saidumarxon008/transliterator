@@ -122,7 +122,6 @@ def file_import(upload_file, source, target):
                 file_name=f'{Path(upload_file.name).stem}_converted.docx',
                 mime='application/vnd.openxmlformats-officedocument.wordprocessingml.document'
             )
-            #need to not corrupt
         elif upload_file.type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
             #Convert the text
             if source == target:
