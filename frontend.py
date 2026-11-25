@@ -121,9 +121,8 @@ def file_import(upload_file, source, target):
                 mime='application/vnd.openxmlformats-officedocument.wordprocessingml.document'
             )
         elif upload_file.type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
-            df = pd.read_excel(upload_file, dtype=str)
+            df = pd.read_excel(upload_file, dtype=str, keep_default_na=False)
             file_content = df.to_string(index=False)
-            file_content.fillna('')
             #Convert the text
             if source == target:
                 converted_text = file_content
