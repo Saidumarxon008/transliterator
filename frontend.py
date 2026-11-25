@@ -3,6 +3,7 @@ from pathlib import Path
 import io
 import streamlit as st
 import pdfplumber
+import openpyxl
 import docx2txt as docx
 import pandas as pd
 from backend import kiril_to_lotin, kiril_to_uzbek, lotin_to_kiril, lotin_to_uzbek, uzbek_to_lotin
@@ -123,27 +124,27 @@ def file_import(upload_file, source, target):
             )
             #need to not corrupt
         elif upload_file.type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
-            file_content = pd.read_excel(upload_file, dtype=str, keep_default_na=False)
             #Convert the text
             if source == target:
-                converted_text = file_content
-
+                converted_text = upload_file.get_value()
             else:
                 converter = converters.get((source, target))
-
-                if converter:
-                    converted_text = converter(file_content)
-                else:
+                if not converter:
                     st.error("Bu yo'nalish qo'llab quvvatlanmaydi.")
                     return 
-            output = io.BytesIO()
-            with pd.ExcelWriter(output, engine='openpyxl') as writer:
-                converted_text.to_excel(writer, index=False, sheet_name='Sheet1')
-            output.seek(0)
+                wb = openpyxl.load_workbook(upload_file)
+                for sheet in wb.worksheets:
+                    for row in sheet.iter_rows():
+                        for cell in row:
+                            if isinstance(cell.value, str) and not cell.value.startswith('='):
+                                cell.value = converter(cell.value)
+            converted_text = io.BytesIO()
+            wb.save(converted_text)
+            converted_text.seek(0)
             
             st.download_button(
                 label='Yuklab olish', 
-                data=output, 
+                data=converted_text, 
                 file_name=f'{Path(upload_file.name).stem}_converted.xlsx',
                 mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
             )
