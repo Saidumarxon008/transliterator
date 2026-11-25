@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from pandas import io
+import io
 import streamlit as st
 import pdfplumber
 import docx2txt as docx
@@ -123,8 +123,7 @@ def file_import(upload_file, source, target):
             )
             #need to not corrupt
         elif upload_file.type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
-            df = pd.read_excel(upload_file, dtype=str, keep_default_na=False)
-            file_content = df.to_string(index=False)
+            file_conq = pd.read_excel(upload_file, dtype=str, keep_default_na=False)
             #Convert the text
             if source == target:
                 converted_text = file_content
@@ -139,11 +138,12 @@ def file_import(upload_file, source, target):
                     return 
             output = io.BytesIO()
             with pd.ExcelWriter(output, engine='openpyxl') as writer:
-                converted_text.to_excel(writer, index = False, sheet_name='Sheet1')
+                converted_text.to_excel(writer, index=False, sheet_name='Sheet1')
             output.seek(0)
+            
             st.download_button(
                 label='Yuklab olish', 
-                data=converted_text, 
+                data=output, 
                 file_name=f'{Path(upload_file.name).stem}_converted.xlsx',
                 mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
             )
