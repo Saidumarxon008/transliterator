@@ -26,6 +26,7 @@ def convert_files(file_content, source, target):
         else:
             st.error("Bu yo'nalish qo'llab quvvatlanmaydi.")
             return
+        return converted_text
 st.markdown(
     """
     <style>
