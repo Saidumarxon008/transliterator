@@ -80,8 +80,21 @@ def file_import(upload_file, source, target):
         elif upload_file.type == 'application/pdf':
             try:
                 with pdfplumber.open(upload_file) as pdf:
-                    pages = pdf.pages[0]
-                    st.write(pages.extract_text())
+                #Read the uploaded file
+            file_content = upload_file.getvalue().decode('utf-8')
+
+            #Convert the text
+            if source == target:
+                converted_text = file_content
+
+            else:
+                converter = converters.get((source, target))
+
+                if converter:
+                    converted_text = converter(file_content)
+                else:
+                    st.error("Bu yo'nalish qo'llab quvvatlanmaydi.")
+                    return
             except:
                 st.write('None')
         elif upload_file.type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
