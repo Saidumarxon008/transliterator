@@ -96,12 +96,23 @@ def file_import(upload_file, source, target):
             st.download_button(
                 label='Yuklab olish', 
                 data=converted_text, 
-                file_name=f'{Path(upload_file.name).stem}_converted.txt',
+                file_name=f'{Path(upload_file.name).stem}_converted.pdf',
                 mime='application/pdf'
             )
         elif upload_file.type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
-            raw_text = docx.process(upload_file)    
-            st.write(raw_text)
+            file_content = docx.process(upload_file) 
+            #Convert the text
+            if source == target:
+                converted_text = file_content
+
+            else:
+                converter = converters.get((source, target))
+
+                if converter:
+                    converted_text = converter(file_content)
+                else:
+                    st.error("Bu yo'nalish qo'llab quvvatlanmaydi.")
+                    return   
             st.download_button(
                 label='Yuklab olish', 
                 data=converted_text, 
