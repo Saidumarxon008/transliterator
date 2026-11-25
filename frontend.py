@@ -120,6 +120,7 @@ def file_import(upload_file, source, target):
                 file_name=f'{Path(upload_file.name).stem}_converted.docx',
                 mime='application/vnd.openxmlformats-officedocument.wordprocessingml.document'
             )
+            #need to not corrupt
         elif upload_file.type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
             df = pd.read_excel(upload_file, dtype=str, keep_default_na=False)
             file_content = df.to_string(index=False)
@@ -134,7 +135,8 @@ def file_import(upload_file, source, target):
                     converted_text = converter(file_content)
                 else:
                     st.error("Bu yo'nalish qo'llab quvvatlanmaydi.")
-                    return   
+                    return 
+            converted_text.to_excel(f'{Path(upload_file.name).stem}_converted.xlsx', index=False, engine='openpyxl')  
             st.download_button(
                 label='Yuklab olish', 
                 data=converted_text, 
