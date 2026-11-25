@@ -3,7 +3,7 @@ from pathlib import Path
 import streamlit as st
 import pdfplumber
 import docx2txt as docx
-
+import pandas as pd
 from backend import kiril_to_lotin, kiril_to_uzbek, lotin_to_kiril, lotin_to_uzbek, uzbek_to_lotin
 
 st.set_page_config(
@@ -121,7 +121,7 @@ def file_import(upload_file, source, target):
                 mime='application/vnd.openxmlformats-officedocument.wordprocessingml.document'
             )
         elif upload_file.type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
-            file_content = docx.process(upload_file) 
+            file_content = pd.read_excel(upload_file) 
             #Convert the text
             if source == target:
                 converted_text = file_content
