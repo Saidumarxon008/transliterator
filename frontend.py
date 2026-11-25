@@ -77,28 +77,29 @@ def file_import(upload_file, source, target):
                 file_name=f'{Path(upload_file.name).stem}_converted.txt',
                 mime='text/plain'
             )
-        elif upload_file.type == 'application/pdf':
-            with pdfplumber.open(upload_file) as pdf:
-                file_content = '\n'.join(page.extract_text() or '' for page in pdf.pages)
+#pdf need fixing
+        # elif upload_file.type == 'application/pdf':
+        #     with pdfplumber.open(upload_file) as pdf:
+        #         file_content = '\n'.join(page.extract_text() or '' for page in pdf.pages)
 
-            #Convert the text
-            if source == target:
-                converted_text = file_content
+        #     #Convert the text
+        #     if source == target:
+        #         converted_text = file_content
 
-            else:
-                converter = converters.get((source, target))
+        #     else:
+        #         converter = converters.get((source, target))
 
-                if converter:
-                    converted_text = converter(file_content)
-                else:
-                    st.error("Bu yo'nalish qo'llab quvvatlanmaydi.")
-                    return
-            st.download_button(
-                label='Yuklab olish', 
-                data=converted_text, 
-                file_name=f'{Path(upload_file.name).stem}_converted.pdf',
-                mime='application/pdf'
-            )
+        #         if converter:
+        #             converted_text = converter(file_content)
+        #         else:
+        #             st.error("Bu yo'nalish qo'llab quvvatlanmaydi.")
+        #             return
+        #     st.download_button(
+        #         label='Yuklab olish', 
+        #         data=converted_text, 
+        #         file_name=f'{Path(upload_file.name).stem}_converted.pdf',
+        #         mime='application/pdf'
+        #     )
         elif upload_file.type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
             file_content = docx.process(upload_file) 
             #Convert the text
