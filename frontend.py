@@ -79,7 +79,7 @@ def file_import(upload_file, source, target):
             )
         elif upload_file.type == 'application/pdf':
             with pdfplumber.open(upload_file) as pdf:
-                upload_file = '\n'.join(page.extract_text() or '' for page in pdf.pages)
+                file_content = '\n'.join(page.extract_text() or '' for page in pdf.pages)
 
             #Convert the text
             if source == target:
