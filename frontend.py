@@ -98,6 +98,13 @@ def file_import(upload_file, source, target):
             st.write(raw_text)
         else:
             st.error("Bu fayl turi qo'llab quvvatlanmaydi")
+            return
+        st.download_button(
+            label='Yuklab olish', 
+            data=converted_text, 
+            file_name=f'{Path(upload_file.name).stem}_converted.txt',
+            mime='application/pdf'
+        )
     
 with col1:
     source = st.selectbox(
