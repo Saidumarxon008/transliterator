@@ -137,7 +137,7 @@ def file_import(upload_file, source, target):
             st.download_button(
                 label='Yuklab olish', 
                 data=converted_text, 
-                file_name=f'{Path(upload_file.name).stem}_converted.docx',
+                file_name=f'{Path(upload_file.name).stem}_converted.xlsx',
                 mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
             )
         else:
