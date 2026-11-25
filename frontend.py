@@ -1,5 +1,6 @@
 from pathlib import Path
 
+from pandas import io
 import streamlit as st
 import pdfplumber
 import docx2txt as docx
@@ -136,8 +137,10 @@ def file_import(upload_file, source, target):
                 else:
                     st.error("Bu yo'nalish qo'llab quvvatlanmaydi.")
                     return 
-            converted_text = pd.Dataframe(converted_text)
-            converted_text.to_excel(f'{Path(upload_file.name).stem}_converted.xlsx', index=False, engine='openpyxl')  
+            output = io.BytesIO()
+            with pd.ExcelWriter(output, engine='openpyxl') as writer:
+                converted_text.to_excel(writer, index = False, sheet_name='Sheet1')
+            output.seek(0)
             st.download_button(
                 label='Yuklab olish', 
                 data=converted_text, 
