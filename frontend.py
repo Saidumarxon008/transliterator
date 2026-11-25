@@ -120,6 +120,26 @@ def file_import(upload_file, source, target):
                 file_name=f'{Path(upload_file.name).stem}_converted.docx',
                 mime='application/vnd.openxmlformats-officedocument.wordprocessingml.document'
             )
+        elif upload_file.type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
+            file_content = docx.process(upload_file) 
+            #Convert the text
+            if source == target:
+                converted_text = file_content
+
+            else:
+                converter = converters.get((source, target))
+
+                if converter:
+                    converted_text = converter(file_content)
+                else:
+                    st.error("Bu yo'nalish qo'llab quvvatlanmaydi.")
+                    return   
+            st.download_button(
+                label='Yuklab olish', 
+                data=converted_text, 
+                file_name=f'{Path(upload_file.name).stem}_converted.docx',
+                mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+            )
         else:
             st.error("Bu fayl turi qo'llab quvvatlanmaydi")
             return
