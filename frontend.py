@@ -79,6 +79,29 @@ def file_import(upload_file, source, target):
                 file_name=f'{Path(upload_file.name).stem}_converted.txt',
                 mime='text/plain'
             )
+        elif upload_file.type == 'text/csv':
+
+            #Read the uploaded file
+            file_content = upload_file.getvalue().decode('utf-8')
+
+            #Convert the text
+            if source == target:
+                converted_text = file_content
+
+            else:
+                converter = converters.get((source, target))
+
+                if converter:
+                    converted_text = converter(file_content)
+                else:
+                    st.error("Bu yo'nalish qo'llab quvvatlanmaydi.")
+                    return
+            st.download_button(
+                label='Yuklab olish', 
+                data=converted_text, 
+                file_name=f'{Path(upload_file.name).stem}_converted.csv',
+                mime='text/csv'
+            )
 #pdf need fixing
         # elif upload_file.type == 'application/pdf':
         #     with pdfplumber.open(upload_file) as pdf:
