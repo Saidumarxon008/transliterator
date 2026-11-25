@@ -14,6 +14,18 @@ st.set_page_config(
     layout="wide"
 )
 
+def convert_files(file_content, source, target):
+    if source == target:
+        converted_text = file_content
+
+    else:
+        converter = converters.get((source, target))
+
+        if converter:
+            converted_text = converter(file_content)
+        else:
+            st.error("Bu yo'nalish qo'llab quvvatlanmaydi.")
+            return
 st.markdown(
     """
     <style>
@@ -61,24 +73,25 @@ def file_import(upload_file, source, target):
             #Read the uploaded file
             file_content = upload_file.getvalue().decode('utf-8')
 
-            #Convert the text
-            if source == target:
-                converted_text = file_content
-
-            else:
-                converter = converters.get((source, target))
-
-                if converter:
-                    converted_text = converter(file_content)
-                else:
-                    st.error("Bu yo'nalish qo'llab quvvatlanmaydi.")
-                    return
+            convert_files(file_content, source, target)
             st.download_button(
                 label='Yuklab olish', 
                 data=converted_text, 
                 file_name=f'{Path(upload_file.name).stem}_converted.txt',
                 mime='text/plain'
             )
+        elif upload_file.type == 'text/csv':
+
+            #Read the uploaded file
+            file_content = upload_file.getvalue().decode('utf-8')
+
+            convert_files(file_content, source, target)
+            st.download_button(
+                label='Yuklab olish', 
+                data=converted_text, 
+                file_name=f'{Path(upload_file.name).stem}_converted.csv',
+                mime='text/csv'
+                )
 #pdf need fixing
         # elif upload_file.type == 'application/pdf':
         #     with pdfplumber.open(upload_file) as pdf:
@@ -104,18 +117,8 @@ def file_import(upload_file, source, target):
         #     )
         elif upload_file.type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
             file_content = docx.process(upload_file) 
-            #Convert the text
-            if source == target:
-                converted_text = file_content
 
-            else:
-                converter = converters.get((source, target))
-
-                if converter:
-                    converted_text = converter(file_content)
-                else:
-                    st.error("Bu yo'nalish qo'llab quvvatlanmaydi.")
-                    return   
+            convert_files(file_content, source, target)
             st.download_button(
                 label='Yuklab olish', 
                 data=converted_text, 
@@ -124,8 +127,9 @@ def file_import(upload_file, source, target):
             )
         elif upload_file.type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
             #Convert the text
+            file_content = upload_file.get_value()
             if source == target:
-                converted_text = upload_file.get_value()
+                converted_text = file_content
             else:
                 converter = converters.get((source, target))
                 if not converter:
