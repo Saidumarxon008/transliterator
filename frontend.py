@@ -104,7 +104,7 @@ def file_import(upload_file, source, target):
 #pdf need fixing
         elif upload_file.type == 'application/pdf':
             extracted_text = ''
-            with pdfplumber.open(io.BytesIO(upload_file.get_value())) as pdf:
+            with pdfplumber.open(io.BytesIO(upload_file.getvalue())) as pdf:
                 for page in pdf.pages:
                     page_text = page.extract_text()
                     if page_text:
