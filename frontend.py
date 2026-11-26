@@ -54,6 +54,107 @@ def convert_pdf(upload_file, converter, font_path):
         filetype="pdf"
     )
 
+    failed = 0
+
+    for page in doc:
+        page_data = page.get_text("dict")
+        replacements = []
+
+        for block in page_data["blocks"]:
+            if "lines" not in block:
+                continue
+
+            for line in block["lines"]:
+                for span in line["spans"]:
+                    original_text = span["text"]
+
+                    if not original_text.strip():
+                        continue
+
+                    converted_text = converter(original_text)
+
+                    if converted_text == original_text:
+                        continue
+
+                    rect = pymupdf.Rect(span["bbox"])
+                    color_int = span["color"]
+
+                    color = (
+                        ((color_int >> 16) & 255) / 255,
+                        ((color_int >> 8) & 255) / 255,
+                        (color_int & 255) / 255
+                    )
+
+                    # TEST: Try inserting on a temporary page
+                    test_doc = pymupdf.open()
+                    test_page = test_doc.new_page(
+                        width=page.rect.width,
+                        height=page.rect.height
+                    )
+
+                    try:
+                        result = test_page.insert_textbox(
+                            rect,
+                            converted_text,
+                            fontfile=font_path,
+                            fontsize=span["size"],
+                            color=color
+                        )
+                    except Exception:
+                        result = -1
+
+                    test_doc.close()
+
+                    # Only accept replacements that fit
+                    if result >= 0:
+                        replacements.append({
+                            "rect": rect,
+                            "text": converted_text,
+                            "size": span["size"],
+                            "color": color
+                        })
+                    else:
+                        failed += 1
+
+        # Redact only text with a successful replacement test
+        for item in replacements:
+            page.add_redact_annot(
+                item["rect"],
+                fill=False
+            )
+
+        if replacements:
+            page.apply_redactions(
+                images=0,
+                graphics=0
+            )
+
+        # Insert the tested replacements
+        for item in replacements:
+            page.insert_textbox(
+                item["rect"],
+                item["text"],
+                fontfile=font_path,
+                fontsize=item["size"],
+                color=item["color"]
+            )
+
+    output = io.BytesIO(doc.tobytes())
+    doc.close()
+
+    output.seek(0)
+
+    if failed:
+        st.warning(
+            f"{failed} text sections could not fit. "
+            "Their original text was preserved."
+        )
+
+    return output    doc = pymupdf.open(
+        stream=upload_file.getvalue(),
+        filetype="pdf"
+    )
+
     for page in doc:
         page_data = page.get_text("dict")
         replacements = []
