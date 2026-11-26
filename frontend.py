@@ -5,7 +5,6 @@ import streamlit as st
 import pdfplumber
 import openpyxl
 import docx2txt as docx
-import pandas as pd
 from backend import kiril_to_lotin, kiril_to_uzbek, lotin_to_kiril, lotin_to_uzbek, uzbek_to_lotin
 
 st.set_page_config(
@@ -103,28 +102,35 @@ def file_import(upload_file, source, target):
                 mime='text/csv'
             )
 #pdf need fixing
-        # elif upload_file.type == 'application/pdf':
-        #     with pdfplumber.open(upload_file) as pdf:
-        #         file_content = '\n'.join(page.extract_text() or '' for page in pdf.pages)
+        elif upload_file.type == 'application/pdf':
+            extracted_text = ''
+            with pdfplumber.open(io.BytesIO(upload_file.get_value())) as pdf:
+                for page in pdf.pages:
+                    page_text = page.extract_text()
+                    if page_text:
+                        extracted_text += page_text + '\n'
+            if not extracted_text.strip():
+                st.warning('PDF fayldan matn topilmadi.')
+                return
 
-        #     #Convert the text
-        #     if source == target:
-        #         converted_text = file_content
+            #Convert the text
+            if source == target:
+                converted_text = file_content
 
-        #     else:
-        #         converter = converters.get((source, target))
+            else:
+                converter = converters.get((source, target))
 
-        #         if converter:
-        #             converted_text = converter(file_content)
-        #         else:
-        #             st.error("Bu yo'nalish qo'llab quvvatlanmaydi.")
-        #             return
-        #     st.download_button(
-        #         label='Yuklab olish', 
-        #         data=converted_text, 
-        #         file_name=f'{Path(upload_file.name).stem}_converted.pdf',
-        #         mime='application/pdf'
-        #     )
+                if converter:
+                    converted_text = converter(file_content)
+                else:
+                    st.error("Bu yo'nalish qo'llab quvvatlanmaydi.")
+                    return
+            st.download_button(
+                label='Yuklab olish', 
+                data=converted_text, 
+                file_name=f'{Path(upload_file.name).stem}_converted.pdf',
+                mime='application/pdf'
+            )
         elif upload_file.type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
             file_content = docx.process(upload_file) 
             #Convert the text
@@ -149,7 +155,7 @@ def file_import(upload_file, source, target):
             #Convert the text
             file_content = upload_file.get_value()
             if source == target:
-                converted_text = upload_file.get_value()
+                converted_file = file_content
             else:
                 converter = converters.get((source, target))
                 if not converter:
@@ -161,9 +167,9 @@ def file_import(upload_file, source, target):
                         for cell in row:
                             if isinstance(cell.value, str) and not cell.value.startswith('='):
                                 cell.value = converter(cell.value)
-            converted_text = io.BytesIO()
+            converted_file = io.BytesIO()
             wb.save(converted_text)
-            converted_text.seek(0)
+            converted_file.seek(0)
             
             st.download_button(
                 label='Yuklab olish', 
