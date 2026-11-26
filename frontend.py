@@ -103,13 +103,13 @@ def file_import(upload_file, source, target):
             )
 #pdf need fixing
         elif upload_file.type == 'application/pdf':
-            extracted_text = ''
+            file_content = ''
             with pdfplumber.open(io.BytesIO(upload_file.getvalue())) as pdf:
                 for page in pdf.pages:
                     page_text = page.extract_text()
                     if page_text:
-                        extracted_text += page_text + '\n'
-            if not extracted_text.strip():
+                        file_content += page_text + '\n'
+            if not file_content.strip():
                 st.warning('PDF fayldan matn topilmadi.')
                 return
 
