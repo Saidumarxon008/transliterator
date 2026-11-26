@@ -2,7 +2,7 @@ from pathlib import Path
 
 import io
 import streamlit as st
-import pdfplumber
+import pymupdf
 import openpyxl
 import docx2txt as docx
 from backend import kiril_to_lotin, kiril_to_uzbek, lotin_to_kiril, lotin_to_uzbek, uzbek_to_lotin
@@ -48,6 +48,64 @@ def swap_languages():
         st.session_state.target,
         st.session_state.source
     )
+def convert_pdf(upload_file, converter, font_path):
+    doc = pymupdf.open(
+        stream=upload_file.getvalue(),
+        filetype="pdf"
+    )
+
+    for page in doc:
+        page_data = page.get_text("dict")
+        replacements = []
+
+        for block in page_data["blocks"]:
+            if "lines" not in block:
+                continue
+
+            for line in block["lines"]:
+                for span in line["spans"]:
+                    original_text = span["text"]
+
+                    if not original_text.strip():
+                        continue
+
+                    converted_text = converter(original_text)
+
+                    if converted_text != original_text:
+                        replacements.append({
+                            "rect": pymupdf.Rect(span["bbox"]),
+                            "text": converted_text,
+                            "size": span["size"],
+                            "color": span["color"]
+                        })
+
+        for item in replacements:
+            page.add_redact_annot(item["rect"], fill=False)
+
+        if replacements:
+            page.apply_redactions(images=0, graphics=0)
+
+        for item in replacements:
+            color_int = item["color"]
+            color = (
+                ((color_int >> 16) & 255) / 255,
+                ((color_int >> 8) & 255) / 255,
+                (color_int & 255) / 255
+            )
+
+            page.insert_textbox(
+                item["rect"],
+                item["text"],
+                fontfile=font_path,
+                fontsize=item["size"],
+                color=color
+            )
+
+    output = io.BytesIO(doc.tobytes())
+    doc.close()
+
+    output.seek(0)
+    return output
 
 def file_import(upload_file, source, target):
     if upload_file is None:
@@ -103,28 +161,14 @@ def file_import(upload_file, source, target):
             )
 #pdf need fixing
         elif upload_file.type == 'application/pdf':
-            file_content = ''
-            with pdfplumber.open(io.BytesIO(upload_file.getvalue())) as pdf:
-                for page in pdf.pages:
-                    page_text = page.extract_text()
-                    if page_text:
-                        file_content += page_text + '\n'
-            if not file_content.strip():
-                st.warning('PDF fayldan matn topilmadi.')
-                return
+            converter = converters.get((source, target))
 
-            #Convert the text
-            if source == target:
-                converted_text = file_content
-
+            if converter:
+                font_path = 'fonts/DejaVuSans.ttf'
+                converted_text = convert_pdf(upload_file, converter, font_path)
             else:
-                converter = converters.get((source, target))
-
-                if converter:
-                    converted_text = converter(file_content)
-                else:
-                    st.error("Bu yo'nalish qo'llab quvvatlanmaydi.")
-                    return
+                st.error("Bu yo'nalish qo'llab quvvatlanmaydi.")
+                return
             st.download_button(
                 label='Yuklab olish', 
                 data=converted_text, 

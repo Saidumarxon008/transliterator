@@ -1,5 +1,5 @@
 streamlit
-pdfplumber
 pandas
 docx2txt
 openpyxl
+pymupdf
