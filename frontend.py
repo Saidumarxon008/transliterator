@@ -72,7 +72,9 @@ def convert_pdf(upload_file, converter, font_path):
                         continue
 
                     converted_text = converter(original_text)
-
+                    print("Original:", repr(original_text))
+                    print("Converted:", repr(converted_text))
+                    print("Insertion result:", result)
                     if converted_text == original_text:
                         continue
 
